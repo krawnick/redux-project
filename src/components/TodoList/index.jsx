@@ -1,21 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { allTodos, activeTodos } from '../../store/todos/todos-selectors'
+import { selectVisibleTodos } from '../../store/todos/todos-selectors'
 import { toggleTodo, deleteTodo } from '../../store/todos/todos-actions'
+import { selectActiveFilter } from '../../store/filters/filters-selectors'
 
 export const TodoList = () => {
-  const todos = useSelector(allTodos)
   const dispatch = useDispatch()
+  const activeFilter = useSelector(selectActiveFilter)
+  const todos = useSelector((state) => selectVisibleTodos(state, activeFilter))
   return (
     <ul>
       {todos.map((todo) => {
         return (
-          <li key={todo.title}>
+          <li key={todo.id}>
             <input
               type="checkbox"
               onChange={() => {
                 dispatch(toggleTodo(todo.id))
               }}
-              checked={todo.competed}
+              checked={todo.completed}
             />
             {todo.title}{' '}
             <button
