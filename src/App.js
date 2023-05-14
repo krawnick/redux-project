@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { addTodo, toggleTodo, deleteTodo } from './store'
+import { addTodo, toggleTodo, deleteTodo } from './store/todos/todos-actions'
+import { allTodos, activeTodos } from './store/todos/todos-selectors'
 
 export default function App() {
   return (
@@ -29,12 +30,11 @@ const TodoForm = () => {
 }
 
 const TodoList = () => {
-  const todos = useSelector((state) => state)
+  const todos = useSelector(allTodos)
   const dispatch = useDispatch()
   return (
     <ul>
       {todos.map((todo) => {
-        console.log(todo.completed)
         return (
           <li key={todo.title}>
             <input
