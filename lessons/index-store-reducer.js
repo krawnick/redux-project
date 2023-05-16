@@ -16,8 +16,6 @@ const reducer = (state, action) => {
 
 const store = createStore(reducer)
 
-console.log(store.getState())
-
 root.render(
   <React.StrictMode>
     <App />

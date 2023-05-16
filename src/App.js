@@ -1,12 +1,17 @@
-import { Filters, TodoForm, TodoList } from './components'
+import { FilterPanel } from './components/FilterPanel'
+import { JobList } from './components/JobList'
+import { TheHeader } from './components/TheHeader'
 
-export default function App() {
+function App() {
   return (
-    <div className="App">
-      <h1>ToDo List</h1>
-      <TodoForm></TodoForm>
-      <Filters></Filters>
-      <TodoList></TodoList>
-    </div>
+    <>
+      <TheHeader />
+      <div className="container">
+        <FilterPanel />
+        <JobList />
+      </div>
+    </>
   )
 }
+
+export default App
