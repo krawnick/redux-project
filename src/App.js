@@ -1,53 +1,26 @@
-import { Component } from 'react'
-import { connect } from 'react-redux'
-import { increment, decrement, reset } from './store'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { FilterPanel } from './components/FilterPanel'
+import { JobList } from './components/JobList'
+import { TheHeader } from './components/TheHeader'
+import { addPositions } from './store/positions/positions-actions'
+import data from './mock/data.json'
 
-export default function App() {
+function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(addPositions(data))
+  })
   return (
-    <div className="App">
-      <h1>Hello Redux</h1>
-      <Counter />
-    </div>
+    <>
+      <TheHeader />
+      <div className="container">
+        <FilterPanel />
+        <JobList />
+      </div>
+    </>
   )
 }
 
-class _Counter extends Component {
-  render() {
-    console.log(this.props)
-    return (
-      <div>
-        <h2>{this.props.count}</h2>
-        <button onClick={this.props.dec}>-</button>
-        <button onClick={this.props.inc}>+</button>
-        <button onClick={this.props.res}>reset</button>
-      </div>
-    )
-  }
-}
-
-const mapStateToProps = (state) => ({
-  count: state.count,
-})
-
-// variant 1
-// const mapDispatchToProps = (dispatch) => ({
-//   inc: () => dispatch(increment),
-//   dec: () => dispatch(decrement),
-//   res: () => dispatch(reset),
-// })
-
-// variant 2
-// const mapDispatchToProps = (dispatch) => ({
-//   inc: bindActionCreators(increment),
-//   dec: bindActionCreators(decrement),
-//   res: bindActionCreators(reset),
-// })
-
-// variant 3
-const mapDispatchToProps = {
-  inc: increment,
-  dec: decrement,
-  res: reset,
-}
-
-const Counter = connect(mapStateToProps, mapDispatchToProps)(_Counter)
+export default App
