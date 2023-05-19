@@ -28,10 +28,26 @@ class _Counter extends Component {
 const mapStateToProps = (state) => ({
   count: state.count,
 })
-const mapDispatchToProps = (dispatch) => ({
-  inc: () => dispatch(increment),
-  dec: () => dispatch(decrement),
-  res: () => dispatch(reset),
-})
+
+// variant 1
+// const mapDispatchToProps = (dispatch) => ({
+//   inc: () => dispatch(increment),
+//   dec: () => dispatch(decrement),
+//   res: () => dispatch(reset),
+// })
+
+// variant 2
+// const mapDispatchToProps = (dispatch) => ({
+//   inc: bindActionCreators(increment),
+//   dec: bindActionCreators(decrement),
+//   res: bindActionCreators(reset),
+// })
+
+// variant 3
+const mapDispatchToProps = {
+  inc: increment,
+  dec: decrement,
+  res: reset,
+}
 
 const Counter = connect(mapStateToProps, mapDispatchToProps)(_Counter)
