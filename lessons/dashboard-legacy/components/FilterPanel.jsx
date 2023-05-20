@@ -5,9 +5,6 @@ import { Stack } from '../UI/Stack'
 import { clearFilter, removeFilter } from '../store/filters/filters-actions'
 
 const _FilterPanel = ({ currentFilters, clearFilter, removeFilter }) => {
-  // const dispatch = useDispatch()
-  // const currentFilters = useSelector(selectFilters)
-
   if (currentFilters.length === 0) {
     return null
   }
