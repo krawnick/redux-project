@@ -1,4 +1,5 @@
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware /*compose*/ } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import logger from 'redux-logger'
 
 const counter = (state = 0, action) => {
@@ -18,7 +19,7 @@ const counter = (state = 0, action) => {
   }
 }
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const middleWare = []
 
@@ -32,9 +33,14 @@ if (process.env.NODE_ENV === 'development') {
 //   console.log('update state is', store.getState())
 // }
 
+// export const store = createStore(
+//   counter,
+//   composeEnhancers(applyMiddleware(...middleWare) /* myLogger */)
+// )
+
 export const store = createStore(
   counter,
-  composeEnhancers(applyMiddleware(...middleWare))
+  composeWithDevTools(applyMiddleware(...middleWare) /* myLogger */)
 )
 
 // actions
