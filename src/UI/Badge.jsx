@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { ReactComponent as Remove } from '../assets/images/icon-remove.svg'
+import { ReactComponent as Remove } from '../images/icon-remove.svg'
 
 export const Badge = ({
   variant = 'basic',

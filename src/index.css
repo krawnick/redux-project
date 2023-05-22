@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@500;700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -12,7 +12,7 @@
   --grey-900: hsl(180, 14%, 20%);
 
   --fs-normal: 15px;
-  --family-primary: 'Spartan', sans-serif;
+  --family-primary: "Spartan", sans-serif;
   --fw-normal: 500;
   --fw-bold: 700;
 
@@ -41,7 +41,7 @@ body {
 
 .header {
   min-height: 156px;
-  background-image: url(./assets/images/bg-header-mobile.svg);
+  background-image: url(./images/bg-header-mobile.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-color: var(--primary);
@@ -54,7 +54,7 @@ body {
   background-color: transparent;
   cursor: pointer;
   font-weight: var(--fw-bold);
-  padding: .5rem;
+  padding: 0.5rem;
 }
 .link:hover {
   color: var(--primary);
@@ -193,7 +193,7 @@ body {
   padding-right: 0.5rem;
 }
 .job-position-meta:not(:last-child)::after {
-  content: '';
+  content: "";
   position: absolute;
   right: -6px;
   top: 6px;
@@ -212,7 +212,7 @@ body {
 
 @media (min-width: 1024px) {
   .header {
-    background-image: url(./assets/images/bg-header-desktop.svg);
+    background-image: url(./images/bg-header-desktop.svg);
   }
   .container {
     max-width: 1000px;
