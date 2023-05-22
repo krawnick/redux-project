@@ -1,25 +1,26 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { increment, decrement, reset } from './store'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { FilterPanel } from './components/FilterPanel'
+import { JobList } from './components/JobList'
+import { TheHeader } from './components/TheHeader'
+import { addPositions } from './store/positions/positions-actions'
+import data from './mock/data.json'
 
-export default function App() {
-  return (
-    <div className="App">
-      <h1>Hello Redux</h1>
-      <Counter />
-    </div>
-  )
-}
-
-const Counter = () => {
-  const count = useSelector((state) => state)
+function App() {
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(addPositions(data))
+  })
   return (
-    <div>
-      <h2>{count}</h2>
-      <button onClick={() => dispatch(decrement)}>-</button>
-      <button onClick={() => dispatch(increment)}>+</button>
-      <button onClick={() => dispatch(reset)}>reset</button>
-    </div>
+    <>
+      <TheHeader />
+      <div className="container">
+        <FilterPanel />
+        <JobList />
+      </div>
+    </>
   )
 }
+
+export default App
