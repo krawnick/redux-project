@@ -8,7 +8,7 @@ export const UserList = () => {
       <ul>
         Number of users {users.length}
         {users.map((user) => (
-          <li>{user.username}</li>
+          <li key={user.id}>{user.username}</li>
         ))}
       </ul>
     </div>
