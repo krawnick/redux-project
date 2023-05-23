@@ -1,8 +1,4 @@
 import { combineReducers } from 'redux'
-import { filterReducer } from './filters/filters-reducers'
-import { positionsReducer } from './positions/positions-reducers'
+import { userReducer } from '../store/users/users-reducers'
 
-export const rootReducer = combineReducers({
-  positions: positionsReducer,
-  filters: filterReducer,
-})
+export const rootReducer = combineReducers({ users: userReducer })
