@@ -1,15 +1,11 @@
 import { useSelector } from 'react-redux'
 
 export const TodoList = () => {
-  const todos = useSelector((state) => state.todos)
-  console.log(todos)
+  const { list: todos, status, error } = useSelector((state) => state.todos)
   return (
     <div>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul>
+      Todos: {todos.length}. Status: {status}.
+      {error && <h4>Ошибка загрузки todos ({error})</h4>}
     </div>
   )
 }
