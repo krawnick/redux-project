@@ -1,6 +1,6 @@
 import { client } from '../../api'
 
-export const ADD_USERS = 'ADD_USERS'
+export const ADD_USERS = '@@users/ADD_USERS'
 export const SET_LOADING = '@@users/SET_LOADING'
 export const SET_ERROR = '@@users/SET_ERROR'
 

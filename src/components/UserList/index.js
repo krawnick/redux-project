@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux'
 
 export const UserList = () => {
   const { list: users, status, error } = useSelector((state) => state.users)
-  console.log(users)
 
   return (
     <div style={{ padding: '20px' }}>

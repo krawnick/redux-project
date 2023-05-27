@@ -6,6 +6,9 @@ export const TodoList = () => {
     <div>
       Todos: {todos.length}. Status: {status}.
       {error && <h4>Ошибка загрузки todos ({error})</h4>}
+      {todos.map((todo) => (
+        <p key={todo.id}>{todo.title}</p>
+      ))}
     </div>
   )
 }

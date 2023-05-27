@@ -1,7 +1,8 @@
-export const client = async (url, { body, ...customConfig }) => {
+export const client = async (endPoint, { body, ...customConfig }) => {
   const headers = {
     'Content-Type': 'application/json',
   }
+
   const config = {
     method: body ? 'POST' : 'GET',
     ...customConfig,
@@ -16,26 +17,27 @@ export const client = async (url, { body, ...customConfig }) => {
   }
 
   try {
-    const response = await fetch(url, config)
+    const response = await fetch(endPoint, config)
 
     if (!response.ok) throw new Error('failed to fetch')
 
     const data = await response.json()
+
     return data
-  } catch (error) {
-    return Promise.reject(error.message)
+  } catch (err) {
+    return Promise.reject(err.message)
   }
 }
 
-client.get = function (url, customConfig = {}) {
-  return client(url, customConfig)
+client.get = function (endPoint, customConfig = {}) {
+  return client(endPoint, customConfig)
 }
-client.post = function (url, body, customConfig = {}) {
-  return client(url, { ...customConfig }, body)
+client.post = function (endPoint, body, customConfig = {}) {
+  return client(endPoint, { ...customConfig, body })
 }
-client.delete = function (url, customConfig = {}) {
-  return client(url, { ...customConfig, method: 'DELETE' })
+client.delete = function (endPoint, customConfig = {}) {
+  return client(endPoint, { ...customConfig, method: 'DELETE' })
 }
-client.patch = function (url, body, customConfig = {}) {
-  return client(url, { ...customConfig, body, method: 'PATCH' })
+client.patch = function (endPoint, body, customConfig = {}) {
+  return client(endPoint, { ...customConfig, body, method: 'PATCH' })
 }
