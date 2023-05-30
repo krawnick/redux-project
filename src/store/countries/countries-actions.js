@@ -1,5 +1,3 @@
-import { themeReducer } from '../theme/theme-redusers'
-
 export const SET_COUNTRIES = '@@countries/SET_COUNTRIES'
 export const SET_LOADING = '@@countries/SET_LOADING'
 export const SET_ERROR = '@@countries/SET_ERROR'
@@ -24,7 +22,7 @@ export const loadCountries =
     dispatch(setLoading())
 
     client
-      .get(api.ALL_COUTRIES)
+      .get(api.ALL_COUNTRIES)
       .then(({ data }) => dispatch(setCountries(data)))
       .catch((error) => dispatch(setError(error.message)))
   }
