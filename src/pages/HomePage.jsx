@@ -21,6 +21,7 @@ export const HomePage = () => {
   const countries = useSelector((state) =>
     selectVisibleCountries(state, { search, region })
   )
+
   useEffect(() => {
     if (!qty) {
       dispatch(loadCountries())

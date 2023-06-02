@@ -6,7 +6,10 @@ import { Info } from '../components/Info'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectDetails } from '../store/details/details-selectors'
 import { useEffect } from 'react'
-import { loadCoutryByName, SET_LOADING } from '../store/details/details-actions'
+import {
+  clearDetails,
+  loadCoutryByName,
+} from '../store/details/details-actions'
 
 export const Details = () => {
   const { name } = useParams()
@@ -16,6 +19,8 @@ export const Details = () => {
 
   useEffect(() => {
     dispatch(loadCoutryByName(name))
+
+    return () => dispatch(clearDetails())
   }, [name, dispatch])
 
   return (
