@@ -3,12 +3,14 @@ import {
   SET_COUNTRY,
   SET_ERROR,
   SET_LOADING,
+  SET_NEIGHBOURS,
 } from './details-actions'
 
 const initialState = {
   currentCountry: null,
   status: 'idle',
   error: null,
+  neighbours: [],
 }
 
 export const detailsReducer = (state = initialState, { type, payload }) => {
@@ -36,6 +38,13 @@ export const detailsReducer = (state = initialState, { type, payload }) => {
     }
     case CLEAR_DETAILS: {
       return initialState
+    }
+
+    case SET_NEIGHBOURS: {
+      return {
+        ...state,
+        neigbours: payload,
+      }
     }
     default: {
       return state
