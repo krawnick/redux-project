@@ -43,7 +43,7 @@ export const detailsReducer = (state = initialState, { type, payload }) => {
     case SET_NEIGHBOURS: {
       return {
         ...state,
-        neigbours: payload,
+        neighbours: payload,
       }
     }
     default: {
