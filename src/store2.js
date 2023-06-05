@@ -1,4 +1,5 @@
 import { createStore } from 'redux'
+import styled from 'styled-components'
 
 export const ADD_TODO = 'ADD_TODO'
 export const TOGGLE_TODO = 'TOGGLE_TODO'
@@ -6,7 +7,27 @@ export const DELETE_TODO = 'DELETE_TODO'
 
 let nextTodoId = 0
 
-export const todos = (state = [], action) => {
+// ACtions creators
+export const addTodo = (title) => {
+  return {
+    type: ADD_TODO,
+    title,
+  }
+}
+export const toggleTodo = (id) => {
+  return {
+    type: TOGGLE_TODO,
+    id,
+  }
+}
+export const deleteTodo = (id) => {
+  return {
+    type: DELETE_TODO,
+    id,
+  }
+}
+
+const todos = (state = [], action) => {
   switch (action.type) {
     case ADD_TODO: {
       return [
@@ -34,27 +55,6 @@ export const todos = (state = [], action) => {
     default: {
       return state
     }
-  }
-}
-
-export const addTodo = (title) => {
-  return {
-    type: ADD_TODO,
-    title,
-  }
-}
-
-export const toggleTodo = (id) => {
-  return {
-    type: TOGGLE_TODO,
-    id,
-  }
-}
-
-export const deleteTodo = (id) => {
-  return {
-    type: DELETE_TODO,
-    id,
   }
 }
 
