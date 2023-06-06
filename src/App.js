@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteTodo, addTodo } from './store2'
+import { deleteTodo, addTodo, toggleTodo } from './store2'
+import './index.css'
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
 
 const NewTodo = () => {
   const dispatch = useDispatch()
+
   const handleSubmit = (event) => {
     event.preventDefault()
     dispatch(addTodo(event.target.title.value))
@@ -30,13 +32,26 @@ const NewTodo = () => {
 const TodoList = () => {
   const dispatch = useDispatch()
   const todos = useSelector((state) => state)
-  console.log(todos)
   return (
     <ul>
       {todos.map((todo) => {
         return (
-          <li onDoubleClick={() => dispatch(deleteTodo(todo.id))} key={todo.id}>
-            {todo.title}
+          <li key={todo.id}>
+            <input
+              type="checkbox"
+              onChange={() => {
+                dispatch(toggleTodo(todo.id))
+              }}
+              checked={todo.completed}
+            />
+            {todo.title}{' '}
+            <button
+              onClick={() => {
+                dispatch(deleteTodo(todo.id))
+              }}
+            >
+              delete
+            </button>
           </li>
         )
       })}

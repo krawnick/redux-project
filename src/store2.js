@@ -1,47 +1,60 @@
+import { createAction, nanoid } from '@reduxjs/toolkit'
 import { createStore } from 'redux'
-import styled from 'styled-components'
 
-export const ADD_TODO = 'ADD_TODO'
-export const TOGGLE_TODO = 'TOGGLE_TODO'
-export const DELETE_TODO = 'DELETE_TODO'
+// Actions const
 
-let nextTodoId = 0
+// export const ADD_TODO = '@@todos/ADD_TODO'
+// export const TOGGLE_TODO = '@@todos/TOGGLE_TODO'
+// export const DELETE_TODO = '@@todos/DELETE_TODO'
 
-// ACtions creators
-export const addTodo = (title) => {
-  return {
-    type: ADD_TODO,
+// Actions creators
+
+export const addTodo = createAction('@@todos/ADD_TODO', (title) => ({
+  payload: {
     title,
-  }
-}
-export const toggleTodo = (id) => {
-  return {
-    type: TOGGLE_TODO,
-    id,
-  }
-}
-export const deleteTodo = (id) => {
-  return {
-    type: DELETE_TODO,
-    id,
-  }
-}
+    id: nanoid(),
+    completed: false,
+  },
+}))
+export const deleteTodo = createAction('@@todos/DELETE_TODO')
+export const toggleTodo = createAction('@@todos/TOGGLE_TODO')
+
+// export const addTodo = (title) => {
+//   return {
+//     type: ADD_TODO,
+//     title,
+//   }
+// }
+
+// export const toggleTodo = (id) => {
+//   return {
+//     type: TOGGLE_TODO,
+//     id,
+//   }
+// }
+// export const toggleTodo = createAction('@@todos/TOGGLE_TODO')
+
+// export const deleteTodo = (id) => {
+//   return {
+//     type: DELETE_TODO,
+//     id,
+//   }
+// }
+// export const deleteTodo = createAction('@@todos/DELETE_TODO')
 
 const todos = (state = [], action) => {
   switch (action.type) {
-    case ADD_TODO: {
+    case addTodo.toString(): {
       return [
         ...state,
         {
-          id: ++nextTodoId,
-          title: action.title,
-          completed: false,
+          ...action.payload,
         },
       ]
     }
-    case TOGGLE_TODO: {
+    case toggleTodo.toString(): {
       return state.map((todo) =>
-        todo.id === action.id
+        todo.id === action.payload
           ? {
               ...todo,
               completed: !todo.completed,
@@ -49,8 +62,8 @@ const todos = (state = [], action) => {
           : todo
       )
     }
-    case DELETE_TODO: {
-      return state.filter((todo) => todo.id !== action.id)
+    case deleteTodo.toString(): {
+      return state.filter((todo) => todo.id !== action.payload)
     }
     default: {
       return state
@@ -58,4 +71,7 @@ const todos = (state = [], action) => {
   }
 }
 
-export const store = createStore(todos)
+export const store = createStore(
+  todos,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
