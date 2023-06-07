@@ -1,4 +1,4 @@
-import { createAction, nanoid } from '@reduxjs/toolkit'
+import { createAction, createReducer, nanoid } from '@reduxjs/toolkit'
 import { createStore } from 'redux'
 
 // Actions const
@@ -42,34 +42,55 @@ export const toggleTodo = createAction('@@todos/TOGGLE_TODO')
 // }
 // export const deleteTodo = createAction('@@todos/DELETE_TODO')
 
-const todos = (state = [], action) => {
-  switch (action.type) {
-    case addTodo.toString(): {
-      return [
-        ...state,
-        {
-          ...action.payload,
-        },
-      ]
-    }
-    case toggleTodo.toString(): {
-      return state.map((todo) =>
-        todo.id === action.payload
-          ? {
-              ...todo,
-              completed: !todo.completed,
-            }
-          : todo
-      )
-    }
-    case deleteTodo.toString(): {
-      return state.filter((todo) => todo.id !== action.payload)
-    }
-    default: {
-      return state
-    }
-  }
-}
+const todos = createReducer([], (builder) => {
+  builder.addCase(addTodo, (state, action) => {
+    return [
+      ...state,
+      {
+        ...action.payload,
+      },
+    ]
+  })
+  builder.addCase(toggleTodo, (state, action) => {
+    return state.map((todo) =>
+      todo.id === action.payload
+        ? { ...todo, completed: !todo.completed }
+        : { todo }
+    )
+  })
+  builder.addCase(deleteTodo, (state, action) =>
+    state.filter((todo) => todo.id !== action.payload)
+  )
+})
+
+// const todos = (state = [], action) => {
+//   switch (action.type) {
+//     case addTodo.toString(): {
+//       return [
+//         ...state,
+//         {
+//           ...action.payload,
+//         },
+//       ]
+//     }
+//     case toggleTodo.toString(): {
+//       return state.map((todo) =>
+//         todo.id === action.payload
+//           ? {
+//               ...todo,
+//               completed: !todo.completed,
+//             }
+//           : todo
+//       )
+//     }
+//     case deleteTodo.toString(): {
+//       return state.filter((todo) => todo.id !== action.payload)
+//     }
+//     default: {
+//       return state
+//     }
+//   }
+// }
 
 export const store = createStore(
   todos,
