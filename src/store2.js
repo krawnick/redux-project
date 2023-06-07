@@ -44,23 +44,15 @@ export const toggleTodo = createAction('@@todos/TOGGLE_TODO')
 
 const todos = createReducer([], (builder) => {
   builder.addCase(addTodo, (state, action) => {
-    return [
-      ...state,
-      {
-        ...action.payload,
-      },
-    ]
+    state.push(action.payload)
   })
   builder.addCase(toggleTodo, (state, action) => {
-    return state.map((todo) =>
-      todo.id === action.payload
-        ? { ...todo, completed: !todo.completed }
-        : { todo }
-    )
+    const todo = state.find((todo) => todo.id === action.payload)
+    todo.completed = !todo.completed
   })
-  builder.addCase(deleteTodo, (state, action) =>
-    state.filter((todo) => todo.id !== action.payload)
-  )
+  builder.addCase(deleteTodo, (state, action) => {
+    return state.filter((todo) => todo.id !== action.payload)
+  })
 })
 
 // const todos = (state = [], action) => {
