@@ -42,18 +42,31 @@ export const toggleTodo = createAction('@@todos/TOGGLE_TODO')
 // }
 // export const deleteTodo = createAction('@@todos/DELETE_TODO')
 
-const todos = createReducer([], (builder) => {
-  builder.addCase(addTodo, (state, action) => {
-    state.push(action.payload)
-  })
-  builder.addCase(toggleTodo, (state, action) => {
-    const todo = state.find((todo) => todo.id === action.payload)
+const todos = createReducer([], {
+  [addTodo]: (state, { payload }) => {
+    state.push(payload)
+  },
+  [toggleTodo]: (state, { payload }) => {
+    const todo = state.find((todo) => todo.id === payload)
     todo.completed = !todo.completed
-  })
-  builder.addCase(deleteTodo, (state, action) => {
-    return state.filter((todo) => todo.id !== action.payload)
-  })
+  },
+  [deleteTodo]: (state, { payload }) => {
+    return state.filter((todo) => todo.id !== payload)
+  },
 })
+
+// const todos = createReducer([], (builder) => {
+//   builder.addCase(addTodo, (state, action) => {
+//     state.push(action.payload)
+//   })
+//   builder.addCase(toggleTodo, (state, action) => {
+//     const todo = state.find((todo) => todo.id === action.payload)
+//     todo.completed = !todo.completed
+//   })
+//   builder.addCase(deleteTodo, (state, action) => {
+//     return state.filter((todo) => todo.id !== action.payload)
+//   })
+// })
 
 // const todos = (state = [], action) => {
 //   switch (action.type) {
