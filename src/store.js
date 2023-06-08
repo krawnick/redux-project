@@ -1,5 +1,7 @@
 import { configureStore, createSlice, nanoid } from '@reduxjs/toolkit'
 import { createStore } from 'redux'
+import logger from 'redux-logger'
+import persistReducer from 'redux-persist/es/persistReducer'
 
 const todoSlice = createSlice({
   name: '@@todos',
@@ -35,6 +37,9 @@ export const store = configureStore({
   //   todos: todoSlice.reducer,
   // },
   devTools: true,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  preloadedState: [{ id: '1', title: 'Hello', completed: true }],
+  enhancers: [],
 })
 
 // export const store = createStore(
