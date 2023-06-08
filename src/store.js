@@ -1,4 +1,4 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit'
+import { configureStore, createSlice, nanoid } from '@reduxjs/toolkit'
 import { createStore } from 'redux'
 
 const todoSlice = createSlice({
@@ -28,9 +28,16 @@ const todoSlice = createSlice({
 })
 
 export const { addTodo, toggleTodo, deleteTodo } = todoSlice.actions
-console.log(todoSlice.reducer)
 
-export const store = createStore(
-  todoSlice.reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+export const store = configureStore({
+  reducer: todoSlice.reducer,
+  // reducer: {
+  //   todos: todoSlice.reducer,
+  // },
+  devTools: true,
+})
+
+// export const store = createStore(
+//   todoSlice.reducer,
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// )
