@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteTodo, addTodo, toggleTodo } from './store'
+import { deleteTodo, addTodo, toggleTodo, resetToDefault } from './store'
 import './index.css'
 
 export default function App() {
@@ -8,13 +8,18 @@ export default function App() {
       <h1>Hello Redux Todo(redux-toolkit)</h1>
       <NewTodo />
       <TodoList />
+      <Button>reset app</Button>
     </div>
   )
 }
 
+const Button = () => {
+  const dispatch = useDispatch()
+  return <button onClick={() => dispatch(resetToDefault())}>reset app</button>
+}
+
 const NewTodo = () => {
   const dispatch = useDispatch()
-
   const handleSubmit = (event) => {
     event.preventDefault()
     dispatch(addTodo(event.target.title.value))

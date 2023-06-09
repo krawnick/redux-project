@@ -1,7 +1,12 @@
-import { configureStore, createSlice, nanoid } from '@reduxjs/toolkit'
-import { createStore } from 'redux'
+import {
+  configureStore,
+  createAction,
+  createSlice,
+  nanoid,
+} from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import persistReducer from 'redux-persist/es/persistReducer'
+
+export const resetToDefault = createAction('root/reset-app')
 
 const todoSlice = createSlice({
   name: '@@todos',
@@ -26,6 +31,9 @@ const todoSlice = createSlice({
     deleteTodo: (state, { payload }) => {
       return state.filter((todo) => todo.id !== payload)
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(resetToDefault, () => [])
   },
 })
 
