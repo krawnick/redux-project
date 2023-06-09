@@ -8,6 +8,33 @@ import logger from 'redux-logger'
 
 export const resetToDefault = createAction('root/reset-app')
 
+const filterSlice = createSlice({
+  name: '@@filter',
+  initialState: 'all',
+  reducers: {
+    setFilter: (_, action) => {
+      return action.payload
+    },
+  },
+})
+
+export const selectVisibleTodos = (state, filter) => {
+  switch (filter) {
+    case 'all': {
+      return state.todos
+    }
+    case 'active': {
+      return state.todos.filter((todo) => todo.completed === false)
+    }
+    case 'completed': {
+      return state.todos.filter((todo) => todo.completed === true)
+    }
+    default: {
+      return state.todos
+    }
+  }
+}
+
 const todoSlice = createSlice({
   name: '@@todos',
   initialState: [],
@@ -38,15 +65,16 @@ const todoSlice = createSlice({
 })
 
 export const { addTodo, toggleTodo, deleteTodo } = todoSlice.actions
+export const { setFilter } = filterSlice.actions
 
 export const store = configureStore({
-  reducer: todoSlice.reducer,
-  // reducer: {
-  //   todos: todoSlice.reducer,
-  // },
+  // reducer: todoSlice.reducer,
+  reducer: {
+    todos: todoSlice.reducer,
+    filters: filterSlice.reducer,
+  },
   devTools: true,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
-  preloadedState: [{ id: '1', title: 'Hello', completed: true }],
   enhancers: [],
 })
 

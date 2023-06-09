@@ -1,5 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteTodo, addTodo, toggleTodo, resetToDefault } from './store'
+import {
+  deleteTodo,
+  addTodo,
+  toggleTodo,
+  resetToDefault,
+  setFilter,
+  selectVisibleTodos,
+} from './store'
 import './index.css'
 
 export default function App() {
@@ -7,13 +14,14 @@ export default function App() {
     <div className="App">
       <h1>Hello Redux Todo(redux-toolkit)</h1>
       <NewTodo />
+      <FilterTodo />
       <TodoList />
-      <Button>reset app</Button>
+      <ResetApp>reset app</ResetApp>
     </div>
   )
 }
 
-const Button = () => {
+const ResetApp = () => {
   const dispatch = useDispatch()
   return <button onClick={() => dispatch(resetToDefault())}>reset app</button>
 }
@@ -36,7 +44,8 @@ const NewTodo = () => {
 
 const TodoList = () => {
   const dispatch = useDispatch()
-  const todos = useSelector((state) => state)
+  const activeFilter = useSelector((state) => state.filters)
+  const todos = useSelector((state) => selectVisibleTodos(state, activeFilter))
   return (
     <ul>
       {todos.map((todo) => {
@@ -61,5 +70,42 @@ const TodoList = () => {
         )
       })}
     </ul>
+  )
+}
+
+const FilterTodo = () => {
+  const dispatch = useDispatch()
+  const activeFilter = useSelector((state) => state.filters)
+  const handleFilter = (filter) => dispatch(setFilter(filter))
+  return (
+    <div
+      style={{
+        display: 'flex',
+        gap: '0 10px',
+        justifyContent: 'center',
+        marginTop: '10px',
+      }}
+    >
+      <button
+        style={{ background: activeFilter === 'all' ? 'lightgrey' : 'none' }}
+        onClick={() => handleFilter('all')}
+      >
+        All
+      </button>
+      <button
+        style={{ background: activeFilter === 'active' ? 'lightgrey' : 'none' }}
+        onClick={() => handleFilter('active')}
+      >
+        Active
+      </button>
+      <button
+        style={{
+          background: activeFilter === 'completed' ? 'lightgrey' : 'none',
+        }}
+        onClick={() => handleFilter('completed')}
+      >
+        completed
+      </button>
+    </div>
   )
 }
