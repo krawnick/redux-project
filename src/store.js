@@ -16,6 +16,9 @@ const filterSlice = createSlice({
       return action.payload
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(resetToDefault, () => [])
+  },
 })
 
 export const selectVisibleTodos = (state, filter) => {
