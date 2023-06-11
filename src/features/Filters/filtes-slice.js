@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { resetToDefault } from '../../store'
+import { resetToDefault } from '../ResetApp/reser-action'
 
 export const filterSlice = createSlice({
   name: '@@filter',
