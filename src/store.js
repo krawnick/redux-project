@@ -5,21 +5,9 @@ import {
   nanoid,
 } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
+import { filterReducer } from './features/Filters/filtes-slice'
 
 export const resetToDefault = createAction('root/reset-app')
-
-const filterSlice = createSlice({
-  name: '@@filter',
-  initialState: 'all',
-  reducers: {
-    setFilter: (_, action) => {
-      return action.payload
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(resetToDefault, () => [])
-  },
-})
 
 export const selectVisibleTodos = (state, filter) => {
   switch (filter) {
@@ -68,13 +56,12 @@ const todoSlice = createSlice({
 })
 
 export const { addTodo, toggleTodo, deleteTodo } = todoSlice.actions
-export const { setFilter } = filterSlice.actions
 
 export const store = configureStore({
   // reducer: todoSlice.reducer,
   reducer: {
     todos: todoSlice.reducer,
-    filters: filterSlice.reducer,
+    filters: filterReducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
