@@ -2,12 +2,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Badge } from '../../UI/Badge'
 import { Card } from '../../UI/Card'
 import { Stack } from '../../UI/Stack'
-
-import { clearFilter, removeFilter, selectFilters } from './filter-slice'
+import { clearFilter, removeFilter, selectFitlers } from './filter-slice'
 
 export const FilterPanel = () => {
   const dispatch = useDispatch()
-  const currentFilters = useSelector(selectFilters)
+  const currentFilters = useSelector(selectFitlers)
 
   if (currentFilters.length === 0) {
     return null
