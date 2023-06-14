@@ -1,15 +1,26 @@
-import { FilterTodo, ResetApp } from './features'
-import { NewTodo, TodoList } from './features/Todos'
-import './index.css'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { FilterPanel } from './components/FilterPanel'
+import { JobList } from './components/JobList'
+import { TheHeader } from './components/TheHeader'
+import { addPositions } from './store/positions/positions-actions'
+import data from './mock/data.json'
 
-export default function App() {
+function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(addPositions(data))
+  })
   return (
-    <div className="App">
-      <h1>Hello Redux Todo(redux-toolkit)</h1>
-      <NewTodo />
-      <FilterTodo />
-      <TodoList />
-      <ResetApp>reset app</ResetApp>
-    </div>
+    <>
+      <TheHeader />
+      <div className="container">
+        <FilterPanel />
+        <JobList />
+      </div>
+    </>
   )
 }
+
+export default App
