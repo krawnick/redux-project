@@ -1,24 +1,3 @@
-// import { createSlice } from '@reduxjs/toolkit'
-
-// const filterSlice = createSlice({
-//   name: '@@filter',
-//   initialState: [],
-//   reducers: {
-//     addFilter: (state, action) => {
-//       if (!state.includes(action.payload)) {
-//         return state.push(action.payload)
-//       }
-//     },
-//     removeFilter: (state, action) => {
-//       return state.filter((item) => item !== action.payload)
-//     },
-//     clearFilter: () => [],
-//   },
-// })
-
-// export const { addFilter, removeFilter, clearFilter } = filterSlice.actions
-// export const filterReducer = filterSlice.reducer
-// export const selectFilters = (state) => state.filter
 import { createSlice } from '@reduxjs/toolkit'
 
 const filterSlice = createSlice({
@@ -40,4 +19,4 @@ const filterSlice = createSlice({
 export const { addFilter, removeFilter, clearFilter } = filterSlice.actions
 export const filterReducer = filterSlice.reducer
 
-export const selectFitlers = (state) => state.filter
+export const selectFilters = (state) => state.filter
