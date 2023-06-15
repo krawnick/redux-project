@@ -1,17 +1,15 @@
-import { FilterPanel } from './features/filter/FilterPanel'
-import { JobList } from './features/positions/JobList'
-import { TheHeader } from './components/TheHeader'
+import { FilterTodo, ResetApp } from './features'
+import { NewTodo, TodoList } from './features/Todos'
+import './index.css'
 
-function App() {
+export default function App() {
   return (
-    <>
-      <TheHeader />
-      <div className="container">
-        <FilterPanel />
-        <JobList />
-      </div>
-    </>
+    <div className="App">
+      <h1>Hello Redux Todo(redux-toolkit)</h1>
+      <NewTodo />
+      <FilterTodo />
+      <TodoList />
+      <ResetApp>reset app</ResetApp>
+    </div>
   )
 }
-
-export default App
