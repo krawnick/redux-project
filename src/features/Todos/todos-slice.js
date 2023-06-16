@@ -1,5 +1,22 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { resetToDefault } from '../ResetApp/reser-action'
+
+export const createTodo = createAsyncThunk(
+  '@@todos/create-todos',
+  async (title, { dispatch }) => {
+    dispatch({ type: 'SET_LOADING' })
+
+    const res = await fetch('http://localhost:3001/todos', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({ title, completed: false }),
+    })
+    const data = res.json()
+    dispatch(addTodo(data))
+  }
+)
 
 export const todosSlice = createSlice({
   name: '@@todos',
@@ -12,7 +29,6 @@ export const todosSlice = createSlice({
       prepare: (title) => ({
         payload: {
           title,
-          id: nanoid(),
           completed: false,
         },
       }),

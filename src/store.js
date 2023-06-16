@@ -12,24 +12,24 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import logger from 'redux-logger'
+// import storage from 'redux-persist/lib/storage'
+// import logger from 'redux-logger'
 
 const rootReducer = combineReducers({
   todos: todosReducer,
   filters: filterReducer,
 })
 
-const persistConfig = {
-  key: 'root',
-  storage,
-}
+// const persistConfig = {
+//   key: 'root',
+//   storage,
+// }
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+// const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
   // reducer: todoSlice.reducer,
-  reducer: persistedReducer,
+  reducer: rootReducer,
   devTools: true,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -42,7 +42,7 @@ export const store = configureStore({
         PURGE,
         REGISTER,
       },
-    }).concat(logger),
+    }) /*.concat(logger)*/,
   enhancers: [],
 })
 
