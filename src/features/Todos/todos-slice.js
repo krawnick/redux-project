@@ -1,5 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { resetToDefault } from '../ResetApp/reser-action'
+import { useDispatch } from 'react-redux'
+
+export const loadTodo = createAsyncThunk('@@todos/load-todo-all', async () => {
+  const res = await fetch('http://localhost:3001/todos')
+  const data = await res.json()
+  console.log(data)
+  return data
+})
 
 export const createTodo = createAsyncThunk(
   '@@todos/create-todo',
@@ -34,18 +42,22 @@ export const todosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(resetToDefault, () => [])
-      .addCase(createTodo.pending, (state, action) => {
+      .addCase(loadTodo.pending, (state) => {
         state.loading = 'loading'
         state.error = null
       })
-      .addCase(createTodo.rejected, (state) => {
+      .addCase(loadTodo.rejected, (state) => {
         state.loading = 'idle'
         state.error = 'Something went wrong!'
+      })
+      .addCase(loadTodo.fulfilled, (state, action) => {
+        state.entities = action.payload
+        state.loading = 'loading'
       })
       .addCase(createTodo.fulfilled, (state, action) => {
         state.entities.push(action.payload)
       })
+      .addCase(resetToDefault, () => [])
   },
 })
 
@@ -61,7 +73,7 @@ export const selectVisibleTodos = (state, filter) => {
       return state.todos.entities.filter((todo) => todo.completed === true)
     }
     default: {
-      return state.todos.entities
+      return state.todos
     }
   }
 }
