@@ -1,13 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { resetToDefault } from '../ResetApp/reser-action'
-import { useDispatch } from 'react-redux'
 
 export const loadTodo = createAsyncThunk('@@todos/load-todo-all', async () => {
   const res = await fetch('http://localhost:3001/todos')
   const data = await res.json()
-  console.log(data)
   return data
 })
+
+export const toggleTodo = createAsyncThunk(
+  '@@todos/toggle-todo',
+  async (id, { getState }) => {
+    const todo = getState().todos.entities.find((todo) => todo.id === id)
+    const res = await fetch('http://localhost:3001/todos/' + id, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ completed: !todo.completed }),
+    })
+    const data = await res.json()
+    return data
+  }
+)
 
 export const createTodo = createAsyncThunk(
   '@@todos/create-todo',
@@ -32,10 +46,6 @@ export const todosSlice = createSlice({
     error: null,
   },
   reducers: {
-    toggleTodo: (state, { payload }) => {
-      const todo = state.find((todo) => todo.id === payload)
-      todo.completed = !todo.completed
-    },
     deleteTodo: (state, { payload }) => {
       return state.filter((todo) => todo.id !== payload)
     },
@@ -56,6 +66,13 @@ export const todosSlice = createSlice({
       })
       .addCase(createTodo.fulfilled, (state, action) => {
         state.entities.push(action.payload)
+      })
+      .addCase(toggleTodo.fulfilled, (state, action) => {
+        const updatedTodo = action.payload
+        const index = state.entities.findIndex(
+          (todo) => todo.id === updatedTodo.id
+        )
+        state.entities[index] = updatedTodo
       })
       .addCase(resetToDefault, () => [])
   },
@@ -78,5 +95,5 @@ export const selectVisibleTodos = (state, filter) => {
   }
 }
 
-export const { addTodo, toggleTodo, deleteTodo } = todosSlice.actions
+export const { deleteTodo } = todosSlice.actions
 export const todosReducer = todosSlice.reducer

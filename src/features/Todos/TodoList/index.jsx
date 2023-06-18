@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteTodo, selectVisibleTodos, toggleTodo } from '../todos-slice'
-import { useEffect } from 'react'
 
 export const TodoList = () => {
   const dispatch = useDispatch()
