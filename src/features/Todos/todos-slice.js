@@ -23,6 +23,21 @@ export const toggleTodo = createAsyncThunk(
   }
 )
 
+export const deleteTodo = createAsyncThunk(
+  '@@todos/delete-todo',
+  async (id) => {
+    console.log(id)
+    const res = await fetch('http://localhost:3001/todos/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    await res.json()
+    return id
+  }
+)
+
 export const createTodo = createAsyncThunk(
   '@@todos/create-todo',
   async (title) => {
@@ -46,8 +61,8 @@ export const todosSlice = createSlice({
     error: null,
   },
   reducers: {
-    deleteTodo: (state, { payload }) => {
-      return state.filter((todo) => todo.id !== payload)
+    deleteTodo: (state, action) => {
+      return state.filter((todo) => todo.id !== action.payload)
     },
   },
   extraReducers: (builder) => {
@@ -74,6 +89,11 @@ export const todosSlice = createSlice({
         )
         state.entities[index] = updatedTodo
       })
+      .addCase(deleteTodo.fulfilled, (state, action) => {
+        state.entities = state.entities.filter(
+          (todo) => todo.id !== action.payload
+        )
+      })
       .addCase(resetToDefault, () => [])
   },
 })
@@ -95,5 +115,4 @@ export const selectVisibleTodos = (state, filter) => {
   }
 }
 
-export const { deleteTodo } = todosSlice.actions
 export const todosReducer = todosSlice.reducer
