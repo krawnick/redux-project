@@ -10,7 +10,7 @@ export const filterSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(resetToDefault, () => [])
+    builder.addCase(resetToDefault, () => 'all')
   },
 })
 

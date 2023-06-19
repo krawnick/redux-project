@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { resetToDefault } from '../ResetApp/reser-action'
 
-export const loadTodo = createAsyncThunk('@@todos/load-todo-all', async () => {
+export const loadTodo = createAsyncThunk('@@todos/load-all', async () => {
   const res = await fetch('http://localhost:3001/todos')
   const data = await res.json()
   return data
@@ -77,7 +77,7 @@ export const todosSlice = createSlice({
       })
       .addCase(loadTodo.fulfilled, (state, action) => {
         state.entities = action.payload
-        state.loading = 'loading'
+        state.loading = 'idle'
       })
       .addCase(createTodo.fulfilled, (state, action) => {
         state.entities.push(action.payload)
@@ -94,7 +94,11 @@ export const todosSlice = createSlice({
           (todo) => todo.id !== action.payload
         )
       })
-      .addCase(resetToDefault, () => [])
+      .addCase(resetToDefault, () => ({
+        entities: [],
+        loading: 'idle', // 'loading'
+        error: null,
+      }))
   },
 })
 

@@ -1,5 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteTodo, selectVisibleTodos, toggleTodo } from '../todos-slice'
+import {
+  deleteTodo,
+  loadTodo,
+  selectVisibleTodos,
+  toggleTodo,
+} from '../todos-slice'
+import { useEffect } from 'react'
 
 export const TodoList = () => {
   const dispatch = useDispatch()
@@ -7,6 +13,10 @@ export const TodoList = () => {
   const todos = useSelector((state) => selectVisibleTodos(state, activeFilter))
 
   const { error, loading } = useSelector((state) => state.todos)
+
+  useEffect(() => {
+    dispatch(loadTodo())
+  }, [dispatch])
 
   return (
     <ul>

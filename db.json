@@ -1,39 +1,9 @@
 {
   "todos": [
     {
-      "title": "asd",
-      "completed": true,
+      "title": "asddas",
+      "completed": false,
       "id": 1
-    },
-    {
-      "title": "ghkhjk",
-      "completed": false,
-      "id": 2
-    },
-    {
-      "title": "vbnbvn",
-      "completed": false,
-      "id": 3
-    },
-    {
-      "title": "asd",
-      "completed": false,
-      "id": 4
-    },
-    {
-      "title": "dfgfdg",
-      "completed": false,
-      "id": 5
-    },
-    {
-      "title": "asdsda",
-      "completed": true,
-      "id": 6
-    },
-    {
-      "title": "fhg",
-      "completed": true,
-      "id": 7
     }
   ]
 }
