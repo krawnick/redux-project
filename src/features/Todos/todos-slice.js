@@ -67,13 +67,8 @@ export const todosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadTodo.rejected, (state) => {
-        state.loading = 'idle'
-        state.error = 'Something went wrong!'
-      })
       .addCase(loadTodo.fulfilled, (state, action) => {
         state.entities = action.payload
-        state.loading = 'idle'
       })
       .addCase(createTodo.fulfilled, (state, action) => {
         state.entities.push(action.payload)
@@ -100,6 +95,19 @@ export const todosSlice = createSlice({
         (state) => {
           state.loading = 'loading'
           state.error = null
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith('/rejected'),
+        (state) => {
+          state.loading = 'idle'
+          state.error = 'Something went wrong!'
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith('/fulfilled'),
+        (state) => {
+          state.loading = 'idle'
         }
       )
   },
