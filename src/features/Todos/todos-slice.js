@@ -1,11 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { resetToDefault } from '../ResetApp/reser-action'
 
-export const loadTodo = createAsyncThunk('@@todos/load-all', async () => {
-  const res = await fetch('http://localhost:3001/todos')
-  const data = await res.json()
-  return data
-})
+export const loadTodo = createAsyncThunk(
+  '@@todos/load-all',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await fetch('http://localhost:3001/todos')
+      const data = await res.json()
+      return data
+    } catch (error) {
+      console.log(error)
+      return rejectWithValue(error.message)
+    }
+  }
+)
 
 export const toggleTodo = createAsyncThunk(
   '@@todos/toggle-todo',
@@ -99,9 +107,9 @@ export const todosSlice = createSlice({
       )
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
-        (state) => {
+        (state, action) => {
           state.loading = 'idle'
-          state.error = 'Something went wrong!'
+          state.error = action.payload
         }
       )
       .addMatcher(

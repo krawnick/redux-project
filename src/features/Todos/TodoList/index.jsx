@@ -8,6 +8,7 @@ import {
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { configureStore } from '@reduxjs/toolkit'
 
 export const TodoList = () => {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ export const TodoList = () => {
   const todos = useSelector((state) => selectVisibleTodos(state, activeFilter))
 
   const { error, loading } = useSelector((state) => state.todos)
+  console.log(error)
 
   useEffect(() => {
     dispatch(loadTodo())
@@ -22,8 +24,9 @@ export const TodoList = () => {
       .then(() => {
         toast('All todos were fetch')
       })
-      .catch(() => {
-        toast('Error')
+      .catch((error) => {
+        console.log(error)
+        toast(error)
       })
   }, [dispatch])
 
@@ -31,7 +34,7 @@ export const TodoList = () => {
     <>
       <ToastContainer />
       <ul>
-        {error && <h2>Error to loading</h2>}
+        {error && <h2>{error}</h2>}
         {loading === 'loading' && <h2>Loading...</h2>}
         {loading === 'idle' &&
           !error &&
