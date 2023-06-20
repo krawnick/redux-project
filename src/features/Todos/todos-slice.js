@@ -12,6 +12,14 @@ export const loadTodo = createAsyncThunk(
       console.log(error)
       return rejectWithValue(error.message)
     }
+  },
+  {
+    condition: (_, { getState, extra }) => {
+      const { loading } = getState().todos
+      if (loading === 'loadind') {
+        return false
+      }
+    },
   }
 )
 

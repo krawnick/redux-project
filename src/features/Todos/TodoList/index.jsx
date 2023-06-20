@@ -8,7 +8,6 @@ import {
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { configureStore } from '@reduxjs/toolkit'
 
 export const TodoList = () => {
   const dispatch = useDispatch()
@@ -19,7 +18,7 @@ export const TodoList = () => {
   console.log(error)
 
   useEffect(() => {
-    dispatch(loadTodo())
+    const promise = dispatch(loadTodo())
       .unwrap()
       .then(() => {
         toast('All todos were fetch')
@@ -28,6 +27,9 @@ export const TodoList = () => {
         console.log(error)
         toast(error)
       })
+    return () => {
+      promise.abort()
+    }
   }, [dispatch])
 
   return (
