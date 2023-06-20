@@ -67,10 +67,6 @@ export const todosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadTodo.pending, (state) => {
-        state.loading = 'loading'
-        state.error = null
-      })
       .addCase(loadTodo.rejected, (state) => {
         state.loading = 'idle'
         state.error = 'Something went wrong!'
@@ -99,6 +95,13 @@ export const todosSlice = createSlice({
         loading: 'idle', // 'loading'
         error: null,
       }))
+      .addMatcher(
+        (action) => action.type.endsWith('/pending'),
+        (state) => {
+          state.loading = 'loading'
+          state.error = null
+        }
+      )
   },
 })
 

@@ -17,10 +17,14 @@ export const TodoList = () => {
   const { error, loading } = useSelector((state) => state.todos)
 
   useEffect(() => {
-    dispatch(loadTodo()).then(({ payload }) => {
-      console.log(payload)
-      toast('All todos were fetch')
-    })
+    dispatch(loadTodo())
+      .unwrap()
+      .then(() => {
+        toast('All todos were fetch')
+      })
+      .catch(() => {
+        toast('Error')
+      })
   }, [dispatch])
 
   return (
