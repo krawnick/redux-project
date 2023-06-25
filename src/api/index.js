@@ -15,14 +15,14 @@ export const createTodo = async (title) => {
 }
 
 export const toggleTodo = async (id, fields) => {
-  const res = await fetch(BASE_URL + id, {
+  const res = await fetch('http://localhost:3001/todos/' + id, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(fields),
   })
-  return res.json()
+  return await res.json()
 }
 
 export const deleteTodo = async (id) => {

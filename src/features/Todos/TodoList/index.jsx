@@ -3,6 +3,7 @@ import {
   deleteTodo,
   loadTodo,
   selectVisibleTodos,
+  todosSelectors,
   toggleTodo,
 } from '../todos-slice'
 import { useEffect } from 'react'
@@ -12,7 +13,9 @@ import 'react-toastify/dist/ReactToastify.css'
 export const TodoList = () => {
   const dispatch = useDispatch()
   const activeFilter = useSelector((state) => state.filters)
-  const todos = useSelector((state) => selectVisibleTodos(state, activeFilter))
+  const todos = useSelector(todosSelectors.selectAll)
+
+  const visibleTodos = selectVisibleTodos(todos, activeFilter)
 
   const { error, loading } = useSelector((state) => state.todos)
 
@@ -39,7 +42,7 @@ export const TodoList = () => {
         {loading === 'loading' && <h2>Loading...</h2>}
         {loading === 'idle' &&
           !error &&
-          todos.map((todo) => {
+          visibleTodos.map((todo) => {
             return (
               <li key={todo.id}>
                 <input

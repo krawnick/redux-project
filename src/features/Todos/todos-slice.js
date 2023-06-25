@@ -1,5 +1,13 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  createAsyncThunk,
+  createEntityAdapter,
+} from '@reduxjs/toolkit'
 import { resetToDefault } from '../ResetApp/reser-action'
+
+const todosAdapter = createEntityAdapter({
+  selectId: (todo) => todo.id,
+})
 
 export const loadTodo = createAsyncThunk(
   '@@todos/load-all',
@@ -24,7 +32,7 @@ export const loadTodo = createAsyncThunk(
 export const toggleTodo = createAsyncThunk(
   '@@todos/toggle-todo',
   async (id, { getState, extra: api }) => {
-    const todo = getState().todos.entities.find((todo) => todo.id === id)
+    const todo = getState().todos.entities[id]
     return api.toggleTodo(id, { completed: !todo.completed })
   }
 )
@@ -45,11 +53,15 @@ export const createTodo = createAsyncThunk(
 
 export const todosSlice = createSlice({
   name: '@@todos',
-  initialState: {
-    entities: [],
+  // initialState: {
+  //   entities: [],
+  //   loading: 'idle', // 'loading'
+  //   error: null,
+  // },
+  initialState: todosAdapter.getInitialState({
     loading: 'idle', // 'loading'
     error: null,
-  },
+  }),
   reducers: {
     deleteTodo: (state, action) => {
       return state.filter((todo) => todo.id !== action.payload)
@@ -58,35 +70,37 @@ export const todosSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadTodo.fulfilled, (state, action) => {
-        state.entities = action.payload
+        todosAdapter.addMany(state, action.payload)
       })
       .addCase(createTodo.fulfilled, (state, action) => {
-        state.entities.push(action.payload)
+        todosAdapter.addOne(state, action.payload)
+        // state.entities.push(action.payload)
       })
       .addCase(toggleTodo.fulfilled, (state, action) => {
         const updatedTodo = action.payload
-        const index = state.entities.findIndex(
-          (todo) => todo.id === updatedTodo.id
-        )
-        state.entities[index] = updatedTodo
+        // const index = state.entities.findIndex(
+        //   (todo) => todo.id === updatedTodo.id
+        // )
+        // state.entities[index] = updatedTodo
+        todosAdapter.updateOne(state, {
+          id: updatedTodo.id,
+          changes: {
+            completed: updatedTodo.completed,
+          },
+        })
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
-        state.entities = state.entities.filter(
-          (todo) => todo.id !== action.payload
-        )
+        todosAdapter.removeOne(state, action.payload)
       })
       .addCase(resetToDefault, () => ({
         entities: [],
         loading: 'idle', // 'loading'
         error: null,
       }))
-      .addMatcher(
-        (action) => action.type.endsWith('/pending'),
-        (state) => {
-          state.loading = 'loading'
-          state.error = null
-        }
-      )
+      .addCase(loadTodo.pending(), (state) => {
+        state.loading = 'loading'
+        state.error = null
+      })
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
@@ -103,21 +117,21 @@ export const todosSlice = createSlice({
   },
 })
 
-export const selectVisibleTodos = (state, filter) => {
+export const selectVisibleTodos = (todos = [], filter) => {
   switch (filter) {
     case 'all': {
-      return state.todos.entities
+      return todos
     }
     case 'active': {
-      return state.todos.entities.filter((todo) => todo.completed === false)
+      return todos.filter((todo) => todo.completed === false)
     }
     case 'completed': {
-      return state.todos.entities.filter((todo) => todo.completed === true)
+      return todos.filter((todo) => todo.completed === true)
     }
     default: {
-      return state.todos
+      return todos
     }
   }
 }
-
+export const todosSelectors = todosAdapter.getSelectors((state) => state.todos)
 export const todosReducer = todosSlice.reducer
