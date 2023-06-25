@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { filterReducer } from './features/Filters/filtes-slice'
 import { todosReducer } from './features/Todos/todos-slice'
 import { combineReducers } from '@reduxjs/toolkit'
+import * as api from './api'
 // import {
 //   persistStore,
 //   persistReducer,
@@ -31,6 +32,8 @@ export const store = configureStore({
   // reducer: todoSlice.reducer,
   reducer: rootReducer,
   devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ thunk: { extraArgument: api } }),
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware({
   //     // Исключение возможности конфликтов middleware с persist

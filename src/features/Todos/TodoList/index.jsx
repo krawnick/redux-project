@@ -15,7 +15,6 @@ export const TodoList = () => {
   const todos = useSelector((state) => selectVisibleTodos(state, activeFilter))
 
   const { error, loading } = useSelector((state) => state.todos)
-  console.log(error)
 
   useEffect(() => {
     const promise = dispatch(loadTodo())
