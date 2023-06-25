@@ -3,9 +3,11 @@ import { resetToDefault } from '../ResetApp/reser-action'
 
 export const loadTodo = createAsyncThunk(
   '@@todos/load-all',
-  async (_, { rejectWithValue, extra: api }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      return api.loadTodo()
+      const res = await fetch('http://localhost:3001/todos')
+      const data = await res.json()
+      return data
     } catch (error) {
       console.log(error)
       return rejectWithValue(error.message)
@@ -23,23 +25,47 @@ export const loadTodo = createAsyncThunk(
 
 export const toggleTodo = createAsyncThunk(
   '@@todos/toggle-todo',
-  async (id, { getState, extra: api }) => {
+  async (id, { getState }) => {
     const todo = getState().todos.entities.find((todo) => todo.id === id)
-    return api.toggleTodo(id, { completed: !todo.completed })
+    const res = await fetch('http://localhost:3001/todos/' + id, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ completed: !todo.completed }),
+    })
+    const data = await res.json()
+    return data
   }
 )
 
 export const deleteTodo = createAsyncThunk(
   '@@todos/delete-todo',
-  async (id, { extra: api }) => {
-    return api.deleteTodo(id)
+  async (id) => {
+    console.log(id)
+    const res = await fetch('http://localhost:3001/todos/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    await res.json()
+    return id
   }
 )
 
 export const createTodo = createAsyncThunk(
   '@@todos/create-todo',
-  async (title, { extra: api }) => {
-    return api.createTodo(title)
+  async (title) => {
+    const res = await fetch('http://localhost:3001/todos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, completed: false }),
+    })
+    const data = await res.json()
+    return data
   }
 )
 
