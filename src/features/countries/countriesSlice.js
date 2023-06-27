@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-export const loadCoutries = createAsyncThunk(
+export const loadCountries = createAsyncThunk(
   '@@countries/load-countries',
   async (_, { extra: { client, api } }) => {
     return client.get(api.ALL_COUNTRIES)
@@ -19,15 +19,15 @@ const countriesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(loadCoutries.pending, (state) => {
+      .addCase(loadCountries.pending, (state) => {
         state.status = 'loading'
         state.error = null
       })
-      .addCase(loadCoutries.rejected, (state, action) => {
+      .addCase(loadCountries.rejected, (state, action) => {
         state.status = 'rejected'
         state.error = action.payload || action.meta.error
       })
-      .addCase(loadCoutries.fulfilled, (state, { payload }) => {
+      .addCase(loadCountries.fulfilled, (state, { payload }) => {
         state.status = 'received'
         state.list = payload.data
       })
