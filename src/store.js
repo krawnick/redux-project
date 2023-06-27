@@ -5,7 +5,11 @@ import { themeReducer } from './features/theme/themeSlice'
 import { controlsReducer } from './features/controls/controlsSlice'
 
 export const store = configureStore({
-  reducer: { theme: themeReducer, controls: controlsReducer },
+  reducer: {
+    theme: themeReducer,
+    controls: controlsReducer,
+    countries: controlsReducer,
+  },
   devTools: true,
   middleware: (getDefaultmiddleware) =>
     getDefaultmiddleware({

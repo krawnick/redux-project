@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { List } from '../components/List'
 import { Card } from '../components/Card'
 import { Controls } from '../features/controls/Controls'
-import {
-  selectVisibleCountries,
-  selectAllCountriesInfo,
-} from '../store/countries/countries-selectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { loadCountries } from '../store/countries/countries-actions'
 import { selectControls } from '../features/controls/controlsSlice'
+import {
+  selectAllCountriesInfo,
+  selectVisibleCountries,
+} from '../features/countries/countriesSlice'
+import { loadCountries } from '../store/countries/countries-actions'
 
 export const HomePage = () => {
   const navigate = useNavigate()
