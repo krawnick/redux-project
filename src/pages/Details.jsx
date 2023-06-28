@@ -4,12 +4,12 @@ import { IoArrowBack } from 'react-icons/io5'
 import { Button } from '../components/Button'
 import { Info } from '../components/Info'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectDetails } from '../store/details/details-selectors'
 import { useEffect } from 'react'
 import {
   clearDetails,
-  loadCoutryByName,
-} from '../store/details/details-actions'
+  loadCountryByName,
+  selectDetails,
+} from '../features/details/detailsSlice'
 
 export const Details = () => {
   const { name } = useParams()
@@ -18,7 +18,7 @@ export const Details = () => {
   const { currentCountry, error, status } = useSelector(selectDetails)
 
   useEffect(() => {
-    dispatch(loadCoutryByName(name))
+    dispatch(loadCountryByName(name))
 
     return () => dispatch(clearDetails())
   }, [name, dispatch])
