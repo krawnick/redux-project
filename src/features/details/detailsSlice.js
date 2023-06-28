@@ -45,8 +45,7 @@ const detailsSLice = createSlice({
       .addCase(loadNeighboursByBorder.fulfilled, (state, action) => {
         state.status = 'received'
         state.error = null
-        state.neighbours = action.payload.data
-        console.log(state.neighbours)
+        state.neighbours = action.payload.data.map((country) => country.name)
       })
   },
 })
